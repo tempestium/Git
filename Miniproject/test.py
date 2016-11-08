@@ -2,9 +2,9 @@ from tkinter import *
 import time
 
 def clicked1():
-    input = entry.get()
-    tekst = ('de input is: ' +input)
-    label["text"] = tekst
+    root1 = Tk()
+
+    root1.mainloop()
 
 
 
