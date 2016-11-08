@@ -1,16 +1,31 @@
 from tkinter import *
+import time
 
-root = Tk('test')
+def clicked1():
+    input = entry.get()
+    tekst = ('de input is: ' +input)
+    label["text"] = tekst
 
-label = Label(master= root, text= 'hellowworld', background='blue')
-label.pack()
 
-button = Button(master= root, text='druk op mij, me likes')
-button.pack(pady=20)
 
-entry = Entry(master= root)
+root = Tk()
+root.wm_title("Hello, world")
+
+label = Label(master= root, text="hellow world")
+label.pack(pady= 20)
+
+button = Button(master= root, text='druk op mij, me likes', command=clicked1)
+button.pack(pady=5)
+button1= Button(master= root, text='test')
+button1.pack(pady=5)
+button1= Button(master= root, text='test')
+button1.pack(pady=5)
+
+
+label1= label
+entry = Entry(master= root, text='test')
+entry.pack(pady=20)
 
 
 root.mainloop()
-
 
