@@ -4,6 +4,12 @@ from tkinter import *
 def raise_frame(frame):
     frame.tkraise()
 
+def highscoretoggle():
+    global test_text
+    test_text ='testtest'
+    raise_frame(highscores)
+    return
+
 def inlog():
     return
 
@@ -57,12 +63,13 @@ Button(mainMenu, text='uitloggen', command=lambda:raise_frame(inlog)).pack()
 Button(mainMenu, text='exit', command=lambda:sys.exit()).pack()
 
 #frame game
-Label(game, text='FRAME 3').pack()
-Button(game, text='Go to frame 4', command=lambda:raise_frame(highscores)).pack()
+Label(game, text='gues the people', font='bold 20').pack(pady= 5)
+Button(game, text='submit', command=lambda:raise_frame(mainMenu)).pack()
 
 #frame highscores
-Label(highscores, text='FRAME 4').pack()
-Button(highscores, text='Go to to frame 1', command=lambda:raise_frame(inlog)).pack()
+highscoresB1= Button(highscores, text='switch test ding', command=highscoretoggle()).pack(pady=10)
+highscoreL1 = Label(highscores, text='hier komen de highscores').pack(pady=10)
+highscoresB2 = Button(highscores, text='Go to to frame 1', command=lambda:raise_frame(mainMenu)).pack(pady=10)
 
 raise_frame(inlog)
 root.mainloop()
