@@ -25,7 +25,7 @@ def highscoreScore():
 root = Tk()
 root.wm_title("Hello, world")
 
-logo = PhotoImage(file=r'''C:\\Users\\Dennis\\PycharmProjects\\Git\\Miniproject\\superman.gif''')
+logo = PhotoImage(file=r'superman.gif')
 p1 = Label(master=root, image=logo)
 p1.pack()
 
