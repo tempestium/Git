@@ -1,8 +1,47 @@
 from tkinter import *
-
+import csv
 
 def raise_frame(frame):
     frame.tkraise()
+
+
+def inloggen():
+
+    list = []
+    wachtwoordList = []
+    naamList = []
+
+    with open("login.csv", "r") as myCSVFile:
+        reader = csv.reader(myCSVFile, delimiter=";")
+        for row in reader:
+            for field in row:
+                list.append(field)
+        myCSVFile.close()
+
+    teller = 0
+    teller2 = 1
+
+    while teller2 < len(list):
+        wachtwoordList.append(list[teller2])
+        naamList.append(list[teller])
+        teller += 2
+        teller2 += 2
+
+    naam = gebruikersnaam.get()
+    wachtwoord = wachtwd.get()
+
+    if wachtwoord in wachtwoordList and naam in naamList:
+        teller = naamList.index(naam)
+        if wachtwoord == wachtwoordList[teller]:
+            raise_frame(mainMenu)
+
+        else:
+            print("Het wachtwoord of de gebruikersnaam is fout2")
+
+    else:
+        print("het wachtwoord of de gebruiksnaam is fout")
+
+
 
 def highscoretoggle():
     global test_text
@@ -10,8 +49,7 @@ def highscoretoggle():
     raise_frame(highscores)
     return
 
-def inlog():
-    return
+
 
 root = Tk()
 
@@ -31,9 +69,11 @@ logo = PhotoImage(file=r'superman.gif')
 Label(inlog, image=logo,).pack()
 Label(inlog, text='click op de knop om de game te starten').pack(pady=10)
 
-gebruikersnaam = Entry(inlog).pack()
-wachtwoord = Entry(inlog).pack()
-Button(inlog, text='login',command=lambda:raise_frame(mainMenu)).pack(pady=10)
+gebruikersnaam = Entry(inlog)
+wachtwd = Entry(inlog)
+gebruikersnaam.pack()
+wachtwd.pack()
+Button(inlog, text='login',command=lambda:inloggen()).pack(pady=10)
 Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)
 
 
@@ -67,7 +107,7 @@ Label(game, text='gues the people', font='bold 20').pack(pady= 5)
 Button(game, text='submit', command=lambda:raise_frame(mainMenu)).pack()
 
 #frame highscores
-highscoresB1= Button(highscores, text='switch test ding', command=highscoretoggle()).pack(pady=10)
+highscoresB1 = Button(highscores, text='switch test ding', command=lambda:highscoretoggle()).pack(pady=10)
 highscoreL1 = Label(highscores, text='hier komen de highscores').pack(pady=10)
 highscoresB2 = Button(highscores, text='Go to to frame 1', command=lambda:raise_frame(mainMenu)).pack(pady=10)
 
