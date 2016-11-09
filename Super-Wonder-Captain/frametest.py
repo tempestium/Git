@@ -4,30 +4,65 @@ from tkinter import *
 def raise_frame(frame):
     frame.tkraise()
 
+def inlog():
+    return
+
 root = Tk()
 
 inlog = Frame(root)
+aanmelden = Frame(root)
 mainMenu = Frame(root)
-Game = Frame(root)
+game = Frame(root)
 highscores = Frame(root)
 
-for frame in (f1, f2, f3, f4):
+
+for frame in (inlog,aanmelden, mainMenu, game, highscores):
     frame.grid(row=0, column=0, sticky='news')
+
 # frame inlog
-Button(f1, text='Go to frame 2', command=lambda:raise_frame(f2)).pack()
-Label(f1, text='FRAME 1').pack()
+Label(inlog, text='super-woman-Captain', font='bold 20').pack(pady=5)
+logo = PhotoImage(file=r'superman.gif')
+Label(inlog, image=logo,).pack()
+Label(inlog, text='click op de knop om de game te starten').pack(pady=10)
+
+gebruikersnaam = Entry(inlog).pack()
+wachtwoord = Entry(inlog).pack()
+Button(inlog, text='login',command=lambda:raise_frame(mainMenu)).pack(pady=10)
+Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)
 
 
-Label(f2, text='FRAME 2').pack()
-Button(f2, text='Go to frame 3', command=lambda:raise_frame(f3)).pack()
+#frame aanmelden
+Label(aanmelden, text='super-woman-Captain', font='bold 20').pack(pady=5)
+logo1 = PhotoImage(file=r'superman.gif')
+Label(aanmelden, image=logo1,).pack()
+Label(aanmelden, text= "voer gebruikers naam en wachtwoordt in.").pack()
+Label(aanmelden, text= 'gebruikersnaam').pack()
+Entry(aanmelden).pack()
+Label(aanmelden, text= 'wachtwoord').pack()
+Entry(aanmelden).pack()
+Label(aanmelden, text= 'bevestig wachtwoord').pack()
+Entry(aanmelden).pack()
 
+Button(aanmelden, text= "aanmelden", command=lambda:raise_frame(inlog)).pack(pady=10,side='left')
+Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog)).pack(pady=10,side='right')
 
-Label(f3, text='FRAME 3').pack(side='left')
-Button(f3, text='Go to frame 4', command=lambda:raise_frame(f4)).pack(side='left')
+#frame main menu
+logo2= PhotoImage(file=r'batman.gif')
+Label(mainMenu, image=logo2).pack()
 
+Label(mainMenu, text='the game, you lost').pack()
+Button(mainMenu, text='start game', command=lambda:raise_frame(game)).pack()
+Button(mainMenu, text='highscore', command=lambda:raise_frame(highscores)).pack()
+Button(mainMenu, text='uitloggen', command=lambda:raise_frame(inlog)).pack()
+Button(mainMenu, text='exit', command=lambda:sys.exit()).pack()
 
-Label(f4, text='FRAME 4').pack()
-Button(f4, text='Goto to frame 1', command=lambda:raise_frame(f1)).pack()
+#frame game
+Label(game, text='FRAME 3').pack()
+Button(game, text='Go to frame 4', command=lambda:raise_frame(highscores)).pack()
 
-raise_frame(f1)
+#frame highscores
+Label(highscores, text='FRAME 4').pack()
+Button(highscores, text='Go to to frame 1', command=lambda:raise_frame(inlog)).pack()
+
+raise_frame(inlog)
 root.mainloop()
