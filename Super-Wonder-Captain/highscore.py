@@ -41,6 +41,9 @@ def highScoresPoints():
             finalList.append(highScoreList[sortingteller4])
             finalList.append(highScoreList[sortingteller3])
             finalList.append(highScoreList[sortingteller2])
+            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.remove(highScoreList[sortingteller4])
             sortingTeller += 1
 
         print(str(finalList))
