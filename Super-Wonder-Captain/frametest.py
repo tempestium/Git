@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter.messagebox import showinfo
 import csv
+import time
+import random
 
 def raise_frame(frame):
     frame.tkraise()
@@ -53,20 +55,26 @@ def nieuwUser():
                 list.append(field)
         myCSVFile.close()
 
-        if nWachtwrd.get() == cWachtwrd.get():
-            while True:
-                naam = nGebruiksnaam.get()
 
-                if naam in list:
-                    showinfo(title='attentie!', message='uw gekozen naam is al gekozen, kiest u alstublieft een andere.')
+        if len(nWachtwrd.get()) ==0 or len(cWachtwrd.get()) ==0:
+            showinfo(title='attentie!', message='vul bijde wachtwoorden in!')
+        else:
+            if nWachtwrd.get() == cWachtwrd.get():
+                while True:
+                    naam = nGebruiksnaam.get()
+                    wachtwoord = ''
 
-                else:
-                    wachtwoord = nWachtwrd.get()
-                with open("login.csv", "a") as meCSVFile:
-                    writer = csv.writer(meCSVFile, delimiter=";")
-                    writer.writerow((naam, wachtwoord))
-                    raise_frame(inlog)
-                    break
+                    if naam in list:
+                        showinfo(title='attentie!', message='uw gekozen naam is al gekozen, kiest u alstublieft een andere.')
+                        break
+
+                    else:
+                        wachtwoord = nWachtwrd.get()
+                        with open("login.csv", "a") as meCSVFile:
+                            writer = csv.writer(meCSVFile, delimiter=";")
+                            writer.writerow((naam, wachtwoord))
+                            raise_frame(inlog)
+                        break
 
 
 # de knop om de hoghscore lijst van "score" naar "Tijd" te veranderen
@@ -75,6 +83,21 @@ def highscoretoggle():
     test_text ='testtest'
     raise_frame(highscores)
     return
+
+
+# functie voor het toevoegen van een nieuwe score
+def newHighScore():
+        score = random.randint(0,25)
+        naam = gebruikersnaam.get()
+        localtime = time.asctime( time.localtime(time.time()) )
+
+        with open("highscore.csv", "a") as meCSVFile:
+                writer = csv.writer(meCSVFile, delimiter=";")
+                writer.writerow((localtime, naam, score))
+
+
+
+
 
 # main code en opbouw van de GUI
 root = Tk()
@@ -95,12 +118,12 @@ logo = PhotoImage(file=r'superman.gif')
 Label(inlog, image=logo,).pack()
 Label(inlog, text='click op de knop om de game te starten').pack(pady=10)
 
-gebruikersnaam = Entry(inlog)
-wachtwd = Entry(inlog)
-gebruikersnaam.pack()
-wachtwd.pack()
-Button(inlog, text='login',command=lambda:inloggen()).pack(pady=10)
-Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)
+gebruikersnaam = Entry(inlog)                                                                                               # invoeren gebruikersnaam
+wachtwd = Entry(inlog)                                                                                                      # invoeren wachtwoord
+gebruikersnaam.pack()                                                                                                       # het realisieren van de entrybox in de gui
+wachtwd.pack()                                                                                                              # het realiseren van de entrybox wachtwoord in de gui
+Button(inlog, text='login',command=lambda:inloggen()).pack(pady=10)                                                         # toevoegen van de button "login" en de verwijzing naar de functie inloggen()
+Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)                                       # toevoegen van de button "aanmelden" met commando om het volgende scherm aanmelden op te roepen
 
 
 #frame aanmelden
@@ -133,6 +156,7 @@ Button(mainMenu, text='exit', command=lambda:sys.exit()).pack()
 #frame game
 Label(game, text='gues the people', font='bold 20').pack(pady= 5)
 Button(game, text='submit', command=lambda:raise_frame(mainMenu)).pack()
+Button(game, text='test knop highscore toevoegen (submit)', command=lambda:newHighScore()).pack()
 
 #frame highscores
 highscoresB1 = Button(highscores, text='switch test ding', command=lambda:highscoretoggle()).pack(pady=10)
