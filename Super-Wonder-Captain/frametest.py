@@ -3,6 +3,7 @@ from tkinter.messagebox import showinfo
 import csv
 import time
 import random
+import winsound
 
 def raise_frame(frame):
     frame.tkraise()
@@ -113,36 +114,57 @@ for frame in (inlog,aanmelden, mainMenu, game, highscores):
     frame.grid(row=0, column=0, sticky='news')
 
 # frame inlog
-Label(inlog, text='Super-Wonder-Captain', font='bold 20').pack(pady=5)
+
+# aanmaken van de variablen voor de GUI inlogscherm
+titel =Label(inlog, text='Super-Wonder-Captain', font='bold 20')
 logo = PhotoImage(file=r'superman.gif')
-Label(inlog, image=logo,).pack()
-Label(inlog, text='click op de knop om de game te starten').pack(pady=10)
+inlogPicture = Label(inlog, image=logo)
+inlogLabel = Label(inlog, text='click op de knop om de game te starten')
+gebruikersnaam = Entry(inlog)
+wachtwd = Entry(inlog)                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
+inlogButton = Button(inlog, text='login',command=lambda:inloggen())
+inlogButton1 = Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden))
 
-gebruikersnaam = Entry(inlog)                                                                                               # invoeren gebruikersnaam
-wachtwd = Entry(inlog)                                                                                                      # invoeren wachtwoord
-gebruikersnaam.pack()                                                                                                       # het realisieren van de entrybox in de gui
-wachtwd.pack()                                                                                                              # het realiseren van de entrybox wachtwoord in de gui
-Button(inlog, text='login',command=lambda:inloggen()).pack(pady=10)                                                         # toevoegen van de button "login" en de verwijzing naar de functie inloggen()
-Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)                                       # toevoegen van de button "aanmelden" met commando om het volgende scherm aanmelden op te roepen
 
+# Aanmaken van de GUI inlogscherm
+titel.pack(pady=10)
+inlogPicture.pack(pady=10)
+inlogLabel.pack(pady=10)
+gebruikersnaam.pack()
+wachtwd.pack()
+inlogButton.pack(pady=10)
+inlogButton1.pack(pady=10)
+winsound.PlaySound('marvelsound.wav',winsound.SND_ASYNC)
 
 #frame aanmelden
-Label(aanmelden, text='super-woman-Captain', font='bold 20').pack(pady=5)
-logo1 = PhotoImage(file=r'superman.gif')
-Label(aanmelden, image=logo1,).pack()
-Label(aanmelden, text= "voer gebruikers naam en wachtwoordt in.").pack()
-Label(aanmelden, text= 'gebruikersnaam').pack()
-nGebruiksnaam = Entry(aanmelden)
-nGebruiksnaam.pack()
-Label(aanmelden, text= 'wachtwoord').pack()
-nWachtwrd = Entry(aanmelden)
-nWachtwrd.pack()
-Label(aanmelden, text= 'bevestig wachtwoord').pack()
-cWachtwrd = Entry(aanmelden)
-cWachtwrd.pack()
 
-Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser()).pack(pady=10)
-Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog)).pack(pady=10)
+#Aanmaken van de variablen
+aanmeldLabelTitle = Label(aanmelden, text='super-woman-Captain', font='bold 20')
+logo1 = PhotoImage(file=r'batman.gif')
+aanmeldPicture = Label(aanmelden, image=logo1,)
+aanmeldLabel1 = Label(aanmelden, text= "voer gebruikers naam en wachtwoordt in.")
+aanmeldLabel2 = Label(aanmelden, text= 'gebruikersnaam')
+nGebruiksnaam = Entry(aanmelden)
+aanmeldLabel3 = Label(aanmelden, text= 'wachtwoord')
+nWachtwrd = Entry(aanmelden)
+aanmeldLabel4 = Label(aanmelden, text= 'bevestig wachtwoord')
+cWachtwrd = Entry(aanmelden)
+aanmeldButton = Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser())
+aanmeldButton1 = Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog))
+
+#maken van de GUI
+aanmeldLabelTitle.pack(pady=5)
+aanmeldPicture.pack()
+aanmeldLabel1.pack()
+aanmeldLabel2.pack(pady=5)
+nGebruiksnaam.pack()
+aanmeldLabel3.pack()
+nWachtwrd.pack()
+aanmeldLabel4.pack()
+cWachtwrd.pack()
+aanmeldButton.pack()
+aanmeldButton1.pack()
+
 
 #frame main menu
 logo2= PhotoImage(file=r'batman.gif')
