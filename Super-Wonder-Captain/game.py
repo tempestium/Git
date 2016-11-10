@@ -21,6 +21,8 @@ def setup_game():
     global events_lijst
     global hidden_naam
     global hint_counter
+    global score
+    score = 25
     hint_counter = 0
     label_hint.config(text='')
 
@@ -49,6 +51,8 @@ def show_hint():
     global hint_counter
     global held_naam
     global hidden_naam
+    global score
+
     hint_counter += 1
 
     if hint_counter == 1:
@@ -56,25 +60,35 @@ def show_hint():
         for i in comics_lijst:
             hintt += i + '\n'
         label_hint.config(text=hintt)
+        score -= 1
     elif hint_counter == 2:
         hintt = 'Held komt voor in deze stories: '
         for i in stories_lijst:
             hintt += i + '\n'
         label_hint.config(text=hintt)
+        score -= 1
     elif hint_counter == 3:
         hintt = 'Held komt voor in deze series: '
         for i in series_lijst:
             hintt += i + '\n'
         label_hint.config(text=hintt)
+        score -= 1
     elif hint_counter == 4:
         hintt = 'Held komt voor in deze events: '
         for i in events_lijst:
             hintt += i + '\n'
         label_hint.config(text=hintt)
-    elif hint_counter > 4 and ((hint_counter-4-len(held_naam)) < len(held_naam)):
+        score -= 1
+    elif hint_counter > 4 and ((hint_counter-4) < (len(held_naam) + 1)):
         word_counter = hint_counter - 4
+        if hidden_naam[word_counter - 1] == ' ':
+            word_counter += 1
+            hint_counter += 1
         hidden_naam = held_naam[:word_counter] + hidden_naam[word_counter:]
         label_held.config(text=hidden_naam)
+        score -= 2
+
+    label_score.config(text='Score: ' + str(score))
 
 # de functie voor het inloggen
 def inloggen():
@@ -228,6 +242,8 @@ Button(game, text='test knop highscore toevoegen (submit)', command=lambda:newHi
 Button(game, text='Laat hint zien!', command=lambda:show_hint()).pack()
 label_held = Label(game, text='', font='bold 20')
 label_hint = Label(game, text='')
+label_score = Label(game, text='Score: 25')
+label_score.pack(pady=5)
 label_held.pack(pady=5)
 label_hint.pack(pady=5)
 
