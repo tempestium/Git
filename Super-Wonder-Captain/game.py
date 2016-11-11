@@ -50,6 +50,8 @@ def invoer():
     pass
 #GEBRUIK portrait_xlarge voor thumbnails
 
+
+
 # de knop om een hint te laten zien
 def show_hint():
     global hint_counter
@@ -127,9 +129,11 @@ def inloggen():
 
         else:
             showinfo(title='ATTENTIE!', message='u heeft een foute gebruikersnaam of wachtwoord ingevuldt.')
+    elif len(wachtwoord) == 0:
+        showinfo(title='ATTENTIE!', message='vul een wachtwoordt in!')
 
     else:
-        showinfo(title='ATTENTIE!', message='u heeft een foute gebruikersnaam of wachtwoord ingevuldt.')
+        showinfo(title='ATTENTIE!', message='uw gebruikersnaam bestaat niet')
 
 # de functie voor het aanmaken van een nieuwe gebruiker/speler
 def nieuwUser():
@@ -167,13 +171,17 @@ def nieuwUser():
                             raise_frame(inlog)
                         break
 
-# de knop om de highscore lijst van "score" naar "Tijd" te veranderen
-def highscoretoggle():
-    global test_text
-    test_text ='testtest'
-    raise_frame(highscores)
-    return
+# de knop om de highscore lijst te printen
+def highscoreframe():
 
+
+    hidden_naam = ''
+    for i in held_naam:
+        if i not in ' ':
+            hidden_naam += '*'
+        else:
+            hidden_naam += ' '
+    label_held.config(text=hidden_naam)
 
 # functie voor het toevoegen van een nieuwe score
 def newHighScore():
@@ -240,6 +248,7 @@ cWachtwrd.pack()
 
 Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser()).pack(pady=10)
 Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog)).pack(pady=10)
+Button(aanmelden, text= 'exit', command=lambda: sys.exit()).pack()
 
 #frame main menu
 logo2= PhotoImage(file=r'batman.gif')
