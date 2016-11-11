@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.messagebox import showinfo
 import csv
+import datetime
 import time
 import json
 import winsound
@@ -12,6 +13,10 @@ def raise_frame(frame):
 def start_game():
     raise_frame(game)
     setup_game()
+
+def show_highscores():
+    raise_frame(highscores)
+    highScoresPoints()
 
 def setup_game():
     global held_naam
@@ -187,32 +192,78 @@ def nieuwUser():
                             raise_frame(inlog)
                         break
 
-# de knop om de highscore lijst te printen
-def highscoreframe():
-
-
-    hidden_naam = ''
-    for i in held_naam:
-        if i not in ' ':
-            hidden_naam += '*'
-        else:
-            hidden_naam += ' '
-    label_held.config(text=hidden_naam)
-
 # functie voor het toevoegen van een nieuwe score
 def newHighScore():
         global score
         global eind_tijd
         naam = gebruikersnaam.get()
-        localtime = time.asctime( time.localtime(time.time()) )
+        localtime = datetime.date.today()
 
-        with open("highscore.csv", "a") as meCSVFile:
+        with open("highscore.csv", "a", newline='') as meCSVFile:
                 writer = csv.writer(meCSVFile, delimiter=";")
                 writer.writerow((localtime, naam, score, eind_tijd))
 
+# functie om highscore op punten te sorteren
+def highScoresPoints():
 
+        highScoreList = []
+        pointsList = []
+        finalList = []
 
+        with open("highscore.csv", "r") as myCSVFile:
+            reader = csv.reader(myCSVFile, delimiter=";")
+            for row in reader:
+                field_nr = 0
+                for field in row:
+                    field_nr += 1
+                    if field_nr == 1:
+                        data = field.split('-')
+                        date = datetime.date(int(data[0]), int(data[1]), int(data[2]))
+                        delta_date = datetime.date.today() - date
+                        highScoreList.append(delta_date.days)
+                    else:
+                        highScoreList.append(field)
+            myCSVFile.close()
 
+        tellerHigh = 2
+
+        while tellerHigh < len(highScoreList):
+            pointsList.append(highScoreList[tellerHigh])
+            tellerHigh += 4
+        pointsList.sort(key=int, reverse=True)
+
+        sortingTeller = 0
+
+        while sortingTeller < len(pointsList):
+            sortingteller2 = highScoreList.index(pointsList[sortingTeller])
+            sortingteller3 = highScoreList.index(pointsList[sortingTeller]) - 1
+            sortingteller4 = highScoreList.index(pointsList[sortingTeller]) - 2
+            sortingteller5 = highScoreList.index(pointsList[sortingTeller]) + 1
+            finalList.append(highScoreList[sortingteller4])
+            finalList.append(highScoreList[sortingteller3])
+            finalList.append(highScoreList[sortingteller2])
+            finalList.append(highScoreList[sortingteller5])
+            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.remove(highScoreList[sortingteller4])
+            sortingTeller += 1
+
+        sortingTeller = 0
+        highscorestring = ''
+        for i in finalList:
+            if sortingTeller == 0:
+                highscorestring += 'Dagen geleden: ' + str(i) + ', '
+            elif sortingTeller == 1:
+                highscorestring += 'Naam: ' + str(i) + ', '
+            elif sortingTeller == 2:
+                highscorestring += 'score: ' + str(i) + ', '
+            elif sortingTeller == 3:
+                highscorestring += 'tijd: ' + str(round(float(i), 2)) + '\n'
+                sortingTeller = -1
+            sortingTeller += 1
+
+        highscoreL1.config(text=highscorestring)
 
 # main code en opbouw van de GUI
 root = Tk()
@@ -272,7 +323,7 @@ logo2= PhotoImage(file=r'batman.gif')
 Label(mainMenu, image=logo2).pack()
 Label(mainMenu, text='the game, you lost').pack()
 Button(mainMenu, text='start game', command=lambda:start_game()).pack()
-Button(mainMenu, text='highscore', command=lambda:raise_frame(highscores)).pack()
+Button(mainMenu, text='highscore', command=lambda:show_highscores()).pack()
 Button(mainMenu, text='uitloggen', command=lambda:raise_frame(inlog)).pack()
 Button(mainMenu, text='exit', command=lambda:sys.exit()).pack()
 
@@ -292,9 +343,9 @@ entry_held.pack()
 label_hint.pack(pady=5)
 
 #frame highscores
-highscoresB1 = Button(highscores, text='switch test ding', command=lambda:highscoretoggle()).pack(pady=10)
-highscoreL1 = Label(highscores, text='hier komen de highscores').pack(pady=10)
-highscoresB2 = Button(highscores, text='Go to to frame 1', command=lambda:raise_frame(mainMenu)).pack(pady=10)
+highscoreL1 = Label(highscores, text='hier komen de highscores')
+highscoreL1.pack(pady=10)
+highscoresB2 = Button(highscores, text='Ga terug naar menu', command=lambda:raise_frame(mainMenu)).pack(pady=10)
 
 raise_frame(inlog)
 root.mainloop()
