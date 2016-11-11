@@ -38,7 +38,7 @@ def setup_game():
     label_score.config(text=str(score))
     start_tijd = [True, time.time()]
 
-    #create_marvel_xml()
+    create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
         filestr = marvelJSONfile.read()
         filedict = json.loads(filestr)
@@ -60,6 +60,7 @@ def invoer():
     global start_tijd
     global eind_tijd
     global held_naam
+    global score
     invoer_held = entry_held.get()
 
     if invoer_held.lower() == held_naam.lower():
@@ -67,9 +68,10 @@ def invoer():
         start_tijd[0] = False
         newHighScore()
         showinfo('Attentie!', 'Gefeliciteerd, het is goed!')
-        raise_frame(highscores)
+        show_highscores()
     else:
         showinfo('Attentie!', 'Dit is niet het juiste antwoord!')
+        score -= 1
 
 # de knop om een hint te laten zien
 def show_hint():
@@ -276,16 +278,18 @@ highscores = Frame(root)
 for frame in (inlog,aanmelden, mainMenu, game, highscores):
     frame.grid(row=0, column=0, sticky='news')
 
+# frame inlog
+
 # aanmaken van de variablen voor de GUI inlogscherm
-titel = Label(inlog, text='Super-Wonder-Captain', font='bold 20')
+titel =Label(inlog, text='Super-Wonder-Captain', font='bold 20')
 logo = PhotoImage(file=r'superman.gif')
 inlogPicture = Label(inlog, image=logo)
 inlogLabel = Label(inlog, text='click op de knop om de game te starten')
 gebruikersnaam = Entry(inlog)
-wachtwd = Entry(inlog, show='*')                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
+wachtwd = Entry(inlog,show= '*')                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
 inlogButton = Button(inlog, text='login',command=lambda:inloggen())
 inlogButton1 = Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden))
-
+inlogButton3 = Button(inlog, text='Exit', command=lambda:sys.exit())
 
 # Aanmaken van de GUI inlogscherm
 titel.pack(pady=10)
@@ -295,55 +299,90 @@ gebruikersnaam.pack()
 wachtwd.pack()
 inlogButton.pack(pady=10)
 inlogButton1.pack(pady=10)
+inlogButton3.pack()
 winsound.PlaySound('marvelsound.wav',winsound.SND_ASYNC)
 
-#frame aanmelden
-Label(aanmelden, text='super-woman-Captain', font='bold 20').pack(pady=5)
-logo1 = PhotoImage(file=r'superman.gif')
-Label(aanmelden, image=logo1,).pack()
-Label(aanmelden, text= "voer gebruikers naam en wachtwoordt in.").pack()
-Label(aanmelden, text= 'gebruikersnaam').pack()
-nGebruiksnaam = Entry(aanmelden)
-nGebruiksnaam.pack()
-Label(aanmelden, text= 'wachtwoord').pack()
-nWachtwrd = Entry(aanmelden, show='*')
-nWachtwrd.pack()
-Label(aanmelden, text= 'bevestig wachtwoord').pack()
-cWachtwrd = Entry(aanmelden, show='*')
-cWachtwrd.pack()
 
-Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser()).pack(pady=10)
-Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog)).pack(pady=10)
-Button(aanmelden, text= 'exit', command=lambda: sys.exit()).pack()
+#frame aanmelden
+
+#Aanmaken van de variablen
+aanmeldLabelTitle = Label(aanmelden, text='super-woman-Captain', font='bold 20')
+logo1 = PhotoImage(file=r'ironman.gif')
+aanmeldPicture = Label(aanmelden, image=logo1,)
+aanmeldLabel1 = Label(aanmelden, text= "voer gebruikers naam en wachtwoordt in.")
+aanmeldLabel2 = Label(aanmelden, text= 'gebruikersnaam')
+nGebruiksnaam = Entry(aanmelden)
+aanmeldLabel3 = Label(aanmelden, text= 'wachtwoord')
+nWachtwrd = Entry(aanmelden)
+aanmeldLabel4 = Label(aanmelden, text= 'bevestig wachtwoord')
+cWachtwrd = Entry(aanmelden)
+aanmeldButton = Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser())
+aanmeldButton1 = Button(aanmelden, text= "terug", command=lambda:raise_frame(inlog))
+
+
+#maken van de GUI
+aanmeldLabelTitle.pack(pady=5)
+aanmeldPicture.pack()
+aanmeldLabel1.pack()
+aanmeldLabel2.pack(pady=5)
+nGebruiksnaam.pack()
+aanmeldLabel3.pack()
+nWachtwrd.pack()
+aanmeldLabel4.pack()
+cWachtwrd.pack()
+aanmeldButton.pack(pady=5)
+aanmeldButton1.pack(pady=5)
+
 
 #frame main menu
+
+# aanamken variabelen
 logo2= PhotoImage(file=r'batman.gif')
-Label(mainMenu, image=logo2).pack()
-Label(mainMenu, text='the game, you lost').pack()
-Button(mainMenu, text='start game', command=lambda:start_game()).pack()
-Button(mainMenu, text='highscore', command=lambda:show_highscores()).pack()
-Button(mainMenu, text='uitloggen', command=lambda:raise_frame(inlog)).pack()
-Button(mainMenu, text='exit', command=lambda:sys.exit()).pack()
+mmLabel = Label(mainMenu, image=logo2)
+mmLabel1 = Label(mainMenu, text='the game, you lost')
+mmButton = Button(mainMenu, text='start game', command=lambda:start_game())
+mmButton2 = Button(mainMenu, text='highscore', command=lambda:raise_frame(highscores))
+mmButton3 = Button(mainMenu, text='uitloggen', command=lambda:raise_frame(inlog))
+mmButton4 = Button(mainMenu, text='exit', command=lambda:sys.exit())
+
+
+# aanmaken GUI Main Menu
+mmLabel.pack()
+mmLabel1.pack()
+mmButton.pack()
+mmButton2.pack()
+mmButton3.pack()
+mmButton4.pack()
 
 #frame game
-Label(game, text='Raad de held!', font='bold 20').pack(pady= 5)
-Button(game, text='submit', command=lambda:raise_frame(mainMenu)).pack()
-Button(game, text='test knop highscore toevoegen (submit)', command=lambda:newHighScore()).pack()
-Button(game, text='Laat hint zien!', command=lambda:show_hint()).pack()
+
+#variableren aanmaken
+
+gLabel = Label(game, text='Raad de held!', font='bold 20')
+gButton = Button(game, text='terug naar main menu', command=lambda:raise_frame(mainMenu))
+gButton1 = Button(game, text='Laat hint zien!', command=lambda:show_hint())
 label_held = Label(game, text='', font='bold 20')
 label_hint = Label(game, text='')
 label_score = Label(game, text='Score: 25')
 entry_held = Entry(game)
+gButton3 = Button(game, text='Voer held in:', command=lambda:invoer())
+
+#het maken van de GUI
+gLabel.pack(pady=5)
 label_score.pack(pady=5)
 label_held.pack(pady=5)
-Button(game, text='Voer held in:', command=lambda:invoer()).pack(pady=5)
-entry_held.pack()
+gButton3.pack()
+entry_held.pack(pady=10)
+gButton1.pack()
 label_hint.pack(pady=5)
+gButton.pack()
+
 
 #frame highscores
 highscoreL1 = Label(highscores, text='hier komen de highscores')
+highscoresB2 = Button(highscores, text='Ga terug naar menu', command=lambda:raise_frame(mainMenu))
 highscoreL1.pack(pady=10)
-highscoresB2 = Button(highscores, text='Ga terug naar menu', command=lambda:raise_frame(mainMenu)).pack(pady=10)
+highscoresB2.pack(pady=10)
 
 raise_frame(inlog)
 root.mainloop()
