@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter.messagebox import showinfo
 import csv
 import time
-import random
 import json
 import winsound
 from marvel_heroes_xml import create_marvel_xml
@@ -24,11 +23,15 @@ def setup_game():
     global hint_counter
     global score
     global start_tijd
+    global track_minscore
+
+    track_minscore = 0
+    entry_held.delete(0, 'end')
     score = 25
     hint_counter = 0
     label_hint.config(text='')
     label_score.config(text=str(score))
-    start_tijd = time.time()
+    start_tijd = [True, time.time()]
 
     #create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
@@ -51,8 +54,17 @@ def setup_game():
 def invoer():
     global start_tijd
     global eind_tijd
-    eind_tijd = time.time() - start_tijd
-    newHighScore()
+    global held_naam
+    invoer_held = entry_held.get()
+
+    if invoer_held.lower() == held_naam.lower():
+        eind_tijd = time.time() - start_tijd[1]
+        start_tijd[0] = False
+        newHighScore()
+        showinfo('Attentie!', 'Gefeliciteerd, het is goed!')
+        raise_frame(highscores)
+    else:
+        showinfo('Attentie!', 'Dit is niet het juiste antwoord!')
 
 
 
@@ -216,12 +228,12 @@ for frame in (inlog,aanmelden, mainMenu, game, highscores):
     frame.grid(row=0, column=0, sticky='news')
 
 # aanmaken van de variablen voor de GUI inlogscherm
-titel =Label(inlog, text='Super-Wonder-Captain', font='bold 20')
+titel = Label(inlog, text='Super-Wonder-Captain', font='bold 20')
 logo = PhotoImage(file=r'superman.gif')
 inlogPicture = Label(inlog, image=logo)
 inlogLabel = Label(inlog, text='click op de knop om de game te starten')
 gebruikersnaam = Entry(inlog)
-wachtwd = Entry(inlog)                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
+wachtwd = Entry(inlog, show='*')                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
 inlogButton = Button(inlog, text='login',command=lambda:inloggen())
 inlogButton1 = Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden))
 
@@ -245,10 +257,10 @@ Label(aanmelden, text= 'gebruikersnaam').pack()
 nGebruiksnaam = Entry(aanmelden)
 nGebruiksnaam.pack()
 Label(aanmelden, text= 'wachtwoord').pack()
-nWachtwrd = Entry(aanmelden)
+nWachtwrd = Entry(aanmelden, show='*')
 nWachtwrd.pack()
 Label(aanmelden, text= 'bevestig wachtwoord').pack()
-cWachtwrd = Entry(aanmelden)
+cWachtwrd = Entry(aanmelden, show='*')
 cWachtwrd.pack()
 
 Button(aanmelden, text= "aanmelden", command=lambda:nieuwUser()).pack(pady=10)
