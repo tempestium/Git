@@ -4,6 +4,7 @@ import csv
 import time
 import random
 import json
+import winsound
 from marvel_heroes_xml import create_marvel_xml
 
 def raise_frame(frame):
@@ -125,10 +126,10 @@ def inloggen():
             raise_frame(mainMenu)
 
         else:
-            print("Het wachtwoord of de gebruikersnaam is fout2")
+            showinfo(title='ATTENTIE!', message='u heeft een foute gebruikersnaam of wachtwoord ingevuldt.')
 
     else:
-        print("het wachtwoord of de gebruiksnaam is fout")
+        showinfo(title='ATTENTIE!', message='u heeft een foute gebruikersnaam of wachtwoord ingevuldt.')
 
 # de functie voor het aanmaken van een nieuwe gebruiker/speler
 def nieuwUser():
@@ -149,6 +150,10 @@ def nieuwUser():
                 while True:
                     naam = nGebruiksnaam.get()
                     wachtwoord = ''
+
+                    if ' ' in naam and len(naam) == 0:
+                        showinfo(title='ATTENTIE!', message='spaties zijn niet toegestaan in uw gebruikersnaam!')
+                        break
 
                     if naam in list:
                         showinfo(title='attentie!', message='uw gekozen naam is al gekozen, kiest u alstublieft een andere.')
@@ -197,19 +202,26 @@ highscores = Frame(root)
 for frame in (inlog,aanmelden, mainMenu, game, highscores):
     frame.grid(row=0, column=0, sticky='news')
 
-# frame inlog
-Label(inlog, text='Super-Wonder-Captain', font='bold 20').pack(pady=5)
+# aanmaken van de variablen voor de GUI inlogscherm
+titel =Label(inlog, text='Super-Wonder-Captain', font='bold 20')
 logo = PhotoImage(file=r'superman.gif')
-Label(inlog, image=logo,).pack()
-Label(inlog, text='click op de knop om de game te starten').pack(pady=10)
+inlogPicture = Label(inlog, image=logo)
+inlogLabel = Label(inlog, text='click op de knop om de game te starten')
+gebruikersnaam = Entry(inlog)
+wachtwd = Entry(inlog)                                                                                                                                                                                                            # het realiseren van de entrybox wachtwoord in de gui
+inlogButton = Button(inlog, text='login',command=lambda:inloggen())
+inlogButton1 = Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden))
 
-gebruikersnaam = Entry(inlog)                                                                                               # invoeren gebruikersnaam
-wachtwd = Entry(inlog)                                                                                                      # invoeren wachtwoord
-gebruikersnaam.pack()                                                                                                       # het realisieren van de entrybox in de gui
-wachtwd.pack()                                                                                                              # het realiseren van de entrybox wachtwoord in de gui
-Button(inlog, text='login',command=lambda:inloggen()).pack(pady=10)                                                         # toevoegen van de button "login" en de verwijzing naar de functie inloggen()
-Button(inlog, text= "aanmelden", command=lambda:raise_frame(aanmelden)).pack(pady=10)                                       # toevoegen van de button "aanmelden" met commando om het volgende scherm aanmelden op te roepen
 
+# Aanmaken van de GUI inlogscherm
+titel.pack(pady=10)
+inlogPicture.pack(pady=10)
+inlogLabel.pack(pady=10)
+gebruikersnaam.pack()
+wachtwd.pack()
+inlogButton.pack(pady=10)
+inlogButton1.pack(pady=10)
+winsound.PlaySound('marvelsound.wav',winsound.SND_ASYNC)
 
 #frame aanmelden
 Label(aanmelden, text='super-woman-Captain', font='bold 20').pack(pady=5)
