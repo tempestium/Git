@@ -38,7 +38,6 @@ def create_marvel_xml():
         filelines = filecontent.readlines()
         held = filelines[random.randrange(0,50)]
         held = held.replace('\n', '')
-        print(held)
 
     url = "https://gateway.marvel.com:443/v1/public/characters?name=" + held
 
