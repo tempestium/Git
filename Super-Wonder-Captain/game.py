@@ -10,14 +10,17 @@ from marvel_heroes_xml import create_marvel_xml
 def raise_frame(frame):
     frame.tkraise()
 
+#gaat naar game frame en runt de game setup
 def start_game():
     raise_frame(game)
     setup_game()
 
+#gaat naar highscore frame en laat de highscores fetchen
 def show_highscores():
     raise_frame(highscores)
     highScoresPoints()
 
+#zorgt ervoor dat de game wordt voorbereid, laat de API info ophalen en laat de speler zien wat hij moet zien
 def setup_game():
     global held_naam
     global comics_lijst
