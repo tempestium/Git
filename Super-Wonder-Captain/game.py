@@ -23,10 +23,12 @@ def setup_game():
     global hidden_naam
     global hint_counter
     global score
+    global start_tijd
     score = 25
     hint_counter = 0
     label_hint.config(text='')
     label_score.config(text=str(score))
+    start_tijd = time.time()
 
     #create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
@@ -47,8 +49,10 @@ def setup_game():
     label_held.config(text=hidden_naam)
 
 def invoer():
-    pass
-#GEBRUIK portrait_xlarge voor thumbnails
+    global start_tijd
+    global eind_tijd
+    eind_tijd = time.time() - start_tijd
+    newHighScore()
 
 
 
@@ -185,13 +189,14 @@ def highscoreframe():
 
 # functie voor het toevoegen van een nieuwe score
 def newHighScore():
-        score = random.randint(0,25)
+        global score
+        global eind_tijd
         naam = gebruikersnaam.get()
         localtime = time.asctime( time.localtime(time.time()) )
 
         with open("highscore.csv", "a") as meCSVFile:
                 writer = csv.writer(meCSVFile, delimiter=";")
-                writer.writerow((localtime, naam, score))
+                writer.writerow((localtime, naam, score, eind_tijd))
 
 
 
