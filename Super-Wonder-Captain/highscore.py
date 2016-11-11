@@ -1,13 +1,13 @@
 import csv
-import time
+import datetime
 import math
 
 def newHighScore():
         score = raw_input("punten: ")
         naam = raw_input("naam: ")
-        localtime = time.asctime( time.localtime(time.time()))
+        localtime = datetime.date.today()
 
-        with open("highscore.csv", "a") as meCSVFile:
+        with open("highscore.csv", "a", newline='') as meCSVFile:
                 writer = csv.writer(meCSVFile, delimiter=";")
                 writer.writerow((localtime, naam, score))
 
@@ -20,8 +20,15 @@ def highScoresPoints():
         with open("highscore.csv", "r") as myCSVFile:
             reader = csv.reader(myCSVFile, delimiter=";")
             for row in reader:
+                field = 1
                 for field in row:
-                    highScoreList.append(field)
+                    field += 1
+                    if field == 1:
+                        data = field.split('-')
+                        date = datetime.date(data[0], data[1], data[2])
+                        highScoreList.append(datetime.date.today() - date)
+                    else:
+                        highScoreList.append(field)
             myCSVFile.close()
 
         print(str(highScoreList))
