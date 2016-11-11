@@ -2,8 +2,8 @@ import csv
 import time
 
 def newHighScore():
-        score = raw_input("punten: ")
-        naam = raw_input("naam: ")
+        score = input("punten: ")
+        naam = input("naam: ")
         localtime = time.asctime( time.localtime(time.time()) )
 
         with open("highscore.csv", "a") as meCSVFile:
@@ -22,7 +22,7 @@ def highScoresPoints():
                 for field in row:
                     highScoreList.append(field)
             myCSVFile.close()
-
+        print('toevoeging')
         print(str(highScoreList))
         tellerHigh = 2
 
@@ -30,7 +30,7 @@ def highScoresPoints():
             pointsList.append(highScoreList[tellerHigh])
             tellerHigh += 3
         pointsList.sort(key=int, reverse=True)
-
+        print
         print(str(pointsList))
         sortingTeller = 0
 
@@ -66,9 +66,9 @@ while True:
     print("3. quit")
     keuze = input("keuze: ")
 
-    if keuze == 1:
+    if keuze == '1':
         newHighScore()
-    elif keuze == 2:
+    elif keuze == '2':
         highScoresPoints()
-    elif keuze == 3:
+    elif keuze == '3':
         break
