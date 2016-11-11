@@ -10,17 +10,14 @@ from marvel_heroes_xml import create_marvel_xml
 def raise_frame(frame):
     frame.tkraise()
 
-#gaat naar game frame en runt de game setup
 def start_game():
     raise_frame(game)
     setup_game()
 
-#gaat naar highscore frame en laat de highscores fetchen
 def show_highscores():
     raise_frame(highscores)
     highScoresPoints()
 
-#zorgt ervoor dat de game wordt voorbereid, laat de API info ophalen en laat de speler zien wat hij moet zien
 def setup_game():
     global held_naam
     global comics_lijst
@@ -41,7 +38,7 @@ def setup_game():
     label_score.config(text=str(score))
     start_tijd = [True, time.time()]
 
-    create_marvel_xml()
+    #create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
         filestr = marvelJSONfile.read()
         filedict = json.loads(filestr)
@@ -73,8 +70,6 @@ def invoer():
         raise_frame(highscores)
     else:
         showinfo('Attentie!', 'Dit is niet het juiste antwoord!')
-
-
 
 # de knop om een hint te laten zien
 def show_hint():
@@ -246,10 +241,10 @@ def highScoresPoints():
             finalList.append(highScoreList[sortingteller3])
             finalList.append(highScoreList[sortingteller2])
             finalList.append(highScoreList[sortingteller5])
-            highScoreList.remove(highScoreList[sortingteller4])
-            highScoreList.remove(highScoreList[sortingteller4])
-            highScoreList.remove(highScoreList[sortingteller4])
-            highScoreList.remove(highScoreList[sortingteller4])
+            highScoreList.pop(sortingteller5)
+            highScoreList.pop(sortingteller2)
+            highScoreList.pop(sortingteller3)
+            highScoreList.pop(sortingteller4)
             sortingTeller += 1
 
         sortingTeller = 0
