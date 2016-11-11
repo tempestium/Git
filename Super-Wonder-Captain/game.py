@@ -38,7 +38,7 @@ def setup_game():
     label_score.config(text=str(score))
     start_tijd = [True, time.time()]
 
-    #create_marvel_xml()
+    create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
         filestr = marvelJSONfile.read()
         filedict = json.loads(filestr)
