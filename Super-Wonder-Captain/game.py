@@ -25,6 +25,7 @@ def setup_game():
     score = 25
     hint_counter = 0
     label_hint.config(text='')
+    label_score.config(text=str(score))
 
     #create_marvel_xml()
     with open('marvel.json') as marvelJSONfile:
@@ -44,6 +45,8 @@ def setup_game():
             hidden_naam += ' '
     label_held.config(text=hidden_naam)
 
+def invoer():
+    pass
 #GEBRUIK portrait_xlarge voor thumbnails
 
 # de knop om een hint te laten zien
@@ -243,8 +246,11 @@ Button(game, text='Laat hint zien!', command=lambda:show_hint()).pack()
 label_held = Label(game, text='', font='bold 20')
 label_hint = Label(game, text='')
 label_score = Label(game, text='Score: 25')
+entry_held = Entry(game)
 label_score.pack(pady=5)
 label_held.pack(pady=5)
+Button(game, text='Voer held in:', command=lambda:invoer()).pack(pady=5)
+entry_held.pack()
 label_hint.pack(pady=5)
 
 #frame highscores
