@@ -27,3 +27,6 @@ print("\nGevonden characters in series:")
 # JSON-indeling kun je uit het geprinte resultaat halen of uit de Marvel docs!
 for item in jsontext['data']['results'][0]['series']['items']:
     print(item['name'])
+
+
+# testing de mergedinggers
