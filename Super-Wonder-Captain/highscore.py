@@ -3,8 +3,8 @@ import datetime
 import math
 
 def newHighScore():
-        score = raw_input("punten: ")
-        naam = raw_input("naam: ")
+        score = input("punten: ")
+        naam = input("naam: ")
         localtime = datetime.date.today()
 
         with open("highscore.csv", "a", newline='') as meCSVFile:
@@ -20,18 +20,19 @@ def highScoresPoints():
         with open("highscore.csv", "r") as myCSVFile:
             reader = csv.reader(myCSVFile, delimiter=";")
             for row in reader:
-                field = 1
+                field_nr = 0
                 for field in row:
-                    field += 1
-                    if field == 1:
+                    field_nr += 1
+                    if field_nr == 1:
                         data = field.split('-')
-                        date = datetime.date(data[0], data[1], data[2])
-                        highScoreList.append(datetime.date.today() - date)
+                        date = datetime.date(int(data[0]), int(data[1]), int(data[2]))
+                        delta_date = datetime.date.today() - date
+                        highScoreList.append(delta_date.days)
                     else:
                         highScoreList.append(field)
             myCSVFile.close()
 
-        print(str(highScoreList))
+        #print(str(highScoreList))
         tellerHigh = 2
 
         while tellerHigh < len(highScoreList):
@@ -39,7 +40,6 @@ def highScoresPoints():
             tellerHigh += 4
         pointsList.sort(key=int, reverse=True)
 
-        print(str(pointsList))
         sortingTeller = 0
 
         while sortingTeller < len(pointsList):
@@ -57,21 +57,9 @@ def highScoresPoints():
             highScoreList.remove(highScoreList[sortingteller4])
             sortingTeller += 1
 
+        sortingTeller = 0
         print(str(finalList))
 
-        finalTeller = 0
-        finalTeller2 = 1
-        finalTeller3 = 2
-        finalTeller4 = 3
-
-        with open("highscore.csv", "w") as iCSVFile:
-                writer = csv.writer(iCSVFile, delimiter=";")
-                while finalTeller < len(finalList):
-                    writer.writerow((finalList[finalTeller], finalList[finalTeller2], finalList[finalTeller3], finalList[finalTeller4]))
-                    finalTeller += 4
-                    finalTeller2 += 4
-                    finalTeller3 += 4
-                    finalTeller4 += 4
 def highScoresPointsTime():
 
         highScoreListTime = []
@@ -127,15 +115,16 @@ def highScoresPointsTime():
                     finalTeller2 += 4
                     finalTeller3 += 4
                     finalTeller4 += 4
-while True:
+done = False
+while not done:
     print("1. voeg nieuwe score toe")
     print("2. sorteer scores")
     print("3. quit")
     keuze = input("keuze: ")
 
-    if keuze == 1:
+    if keuze == '1':
         newHighScore()
-    elif keuze == 2:
+    elif keuze == '2':
         highScoresPoints()
-    elif keuze == 3:
-        break
+    elif keuze == '3':
+        done = True
